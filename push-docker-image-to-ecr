@@ -1,0 +1,7 @@
+Example :
+ECR :  011475985447.dkr.ecr.ap-south-1.amazonaws.com/pankaj_ecr_repo
+Docker Tag : docker tag mynewalpine:latest 011475985447.dkr.ecr.ap-south-1.amazonaws.com/pankaj_ecr_repo:latest
+Docker Push : sudo docker push 011475985447.dkr.ecr.ap-south-1.amazonaws.com/pankaj_ecr_repo:latest
+
+Supporting YouTube Vid :
+https://www.youtube.com/watch?v=Yy9AGt4m0_I
