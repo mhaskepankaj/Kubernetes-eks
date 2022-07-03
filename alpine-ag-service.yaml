@@ -1,0 +1,36 @@
+# If you have to access service via EC2 DNS or IP, go with NodePort :
+
+apiVersion: v1
+kind: Service
+metadata:
+  name: pankaj-test-alpine-ag
+  labels:
+    app: alpine-ag
+spec:
+  type: NodePort 
+  ports:
+  - port: 4200
+  selector:
+    app: alpine-ag
+--- 
+# If you will be setting up Ingress further, go with ClusterIP
+
+apiVersion: v1
+kind: Service
+metadata:
+  name: pankaj-test-alpine-ag
+  labels:
+    app: alpine-ag
+spec:
+  type: ClusterIP
+  ports:
+  - port: 4200
+  selector:
+    app: alpine-ag
+
+# Command : kubectl create -f alpine-ag-service.yaml
+
+------
+
+# Once NodePort service is created, get the port from kubectl get svc, go to EC2 and open same port from inbound # rules - saying anywhere, get IP address of EC2 and port, hit from browser - like : http://13.233.227.111:30304/
+# Angular default page should get displayed …
