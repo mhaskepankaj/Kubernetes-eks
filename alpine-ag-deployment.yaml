@@ -1,0 +1,24 @@
+apiVersion: apps/v1 
+kind: Deployment
+metadata:
+  name: pankaj-test-alpine-ag
+  labels:
+    app: alpine-ag
+spec:
+  selector:
+    matchLabels:
+      app: alpine-ag
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: alpine-ag
+    spec:
+      containers:
+      - name: pankaj-test-alpine-ag
+        image: 011475985447.dkr.ecr.ap-south-1.amazonaws.com/pankaj_ecr_repo:latest
+        ports:
+        - containerPort: 4200
+
+
+### Command : kubectl create -f alpine-ag-deployment.yaml
