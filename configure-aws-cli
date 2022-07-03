@@ -1,0 +1,8 @@
+ 
+ execute : aws configure command and provide below values
+
+aws configure
+Enter -> (Access ID)AKIAQFLAFUOZPCHDQ  // your access id
+Enter -> (Secret Key)SGEF6X1mLXSpz8WL3IC98Ytl6mT7I3AWCf  // your secret key
+region=ap-south-1 // region
+json  // json or none
