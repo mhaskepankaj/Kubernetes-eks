@@ -1,0 +1,75 @@
+Installation with Helm :
+
+Get and Install Helm :
+
+Guide : https://devopscube.com/install-configure-helm-kubernetes/
+curl -fsSL -o get_helm.sh https://raw.githubusercontent.com/helm/helm/master/scripts/get-helm-3 
+chmod 700 get_helm.sh 
+./get_helm.sh
+
+Install Ingress Controller :
+https://kubernetes.github.io/ingress-nginx/deploy/
+
+helm upgrade --install ingress-nginx ingress-nginx --repo https://kubernetes.github.io/ingress-nginx --namespace ingress-nginx --create-namespace
+
+*If you get error like :
+Error: Kubernetes cluster unreachable: exec plugin: invalid apiVersion "client.authentication.k8s.io/v1alpha1"
+[ec2-user@ip-172-31-19-219 ~]$
+
+Then upgrade AWS CLI and Kubeconfig with below commands :
+   curl "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip" -o "awscliv2.zip"
+   unzip awscliv2.zip
+   sudo ./aws/install --update
+
+  aws eks update-kubeconfig --region ap-south-1 --name pankaj-test-eks
+
+Now execute helm install :
+helm upgrade --install ingress-nginx ingress-nginx --repo https://kubernetes.github.io/ingress-nginx --namespace ingress-nginx --create-namespace
+
+Sometime it gives error like : Error: failed post-install: timed out waiting for the condition -> Ignore this time out error - behind the scene installations is in progress
+
+After few minutes(5-10), check ingress resources with below command :
+kubectl get all -n ingress-nginx
+
+Check if NLB is created properly 
+
+Now it's time to create ingress resource :
+
+alpine-ag-ingress.yaml =>
+
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: pankaj-test-alpine-ag-ingress
+  annotations:
+    kubernetes.io/ingress.class: nginx
+spec:
+  rules:
+  - http:
+      paths:
+        - pathType: Prefix
+          backend:
+            service:
+              name: pankaj-test-alpine-ag
+              port:
+                number: 4200
+          path: /
+
+Apply :
+kubectl apply -f alpine-ag-ingress.yaml
+
+If you get error like :
+Error from server (InternalError): error when creating "alpine-ag-ingress.yaml": Internal error occurred: failed calling webhook "validate.nginx.ingress.kubernetes.io": Post "https://ingress-nginx-controller-admission.ingress-nginx.svc:443/networking/v1/ingresses?timeout=10s": x509: certificate signed by unknown authority
+
+Then execute below command and apply again :
+kubectl delete -A ValidatingWebhookConfiguration ingress-nginx-admission
+
+Now application should be accessible with NLB endpoint (A Record)
+
+
+---
+
+If you prefer YAML file, execute below command :
+sudo kubectl apply -f https://raw.githubusercontent.com/kubernetes/ingress-nginx/controller-v1.2.1/deploy/static/provider/cloud/deploy.yaml
+
+From <https://kubernetes.github.io/ingress-nginx/deploy/> 
