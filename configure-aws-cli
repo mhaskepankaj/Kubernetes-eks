@@ -3,6 +3,6 @@
 
 aws configure
 Enter -> (Access ID)AKIAQFLAFUOZPC  // your access id
-Enter -> (Secret Key)SGEF6X1mLXSpz8WL3IC98Ytl6m  // your secret key
+Enter -> (Secret Key)SGEF6X1mLXSpzxxx3IC98Ytl6m  // your secret key
 region=ap-south-1 // region
 json  // json or none
